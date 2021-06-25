@@ -9,33 +9,31 @@
 
 // const int DIMMER_RELAY = 10;
 
-void setup()
-{
-  Serial.begin(9600);
-  //Initialise MCP2515 CAN controller at the specified speed
-  if (Canbus.init(CANSPEED_500))
-    Serial.println("CAN Init ok");
-  else
-    Serial.println("Can't Init CAN");
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
 
+  Serial.begin(9600); // For debug use
+  Serial.println("CAN Read - Testing receival of CAN Bus message");
   delay(1000);
+
+  if (Canbus.init(CANSPEED_500)) {
+    Serial.println("CAN Init ok");
+  } else {
+    Serial.println("Can't init CAN");
+  }
 }
 
 void loop() {
   tCAN message;
-
   if (mcp2515_check_message()) {
     if (mcp2515_get_message(&message)) {
-      if (message.id == 0x620) {
-        Serial.print("ID: ");
-        Serial.print(message.id, HEX);
-        Serial.print(", ");
-        Serial.print("Data: ");
-        for (int i = 0; i < message.header.length; i++) {
-          Serial.print(message.data[i], HEX);
-          Serial.print(" ");
-        }
-        Serial.println("");
+      if (message.id == 0x620 and message.data[4] == 0xF0) {
+        digitalWrite(LED_BUILTIN, HIGH);
+        Serial.println("metre dimmed");
+      } else {
+        digitalWrite(LED_BUILTIN, LOW);
+        Serial.println("metre full brightness");
       }
     }
   }

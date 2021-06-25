@@ -1,4 +1,5 @@
 // for 2016 and above toyotas
+// uses the sparkfun can bus lib
 
 #include <Canbus.h>
 #include <defaults.h>
@@ -29,8 +30,10 @@ void loop(){
       if (mcp2515_get_message(&message)) {
         if (message.id == 0x620 and message.data[4] == 0xF0) {
           digitalWrite(LED_BUILTIN, HIGH);
+          Serial.println("metre dimmed")
         } else {
           digitalWrite(LED_BUILTIN, LOW);
+          Serial.println("metre full brightness")
       }
     }
   }

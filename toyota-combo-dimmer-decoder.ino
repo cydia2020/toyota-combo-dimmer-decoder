@@ -14,7 +14,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);
 
   Serial.begin(9600); // For debug use
-  Serial.println("CAN Read - Testing receival of CAN Bus message");  
+  Serial.println("CAN Read - Testing receival of CAN Bus message");
   delay(1000);
 
   if (Canbus.init(CANSPEED_500)) {
@@ -24,16 +24,16 @@ void setup() {
   }
 }
 
-void loop(){
+void loop() {
   tCAN message;
   if (mcp2515_check_message()) {
-      if (mcp2515_get_message(&message)) {
-        if (message.id == 0x620 and message.data[4] == 0xF0) {
-          digitalWrite(LED_BUILTIN, HIGH);
-          Serial.println("metre dimmed")
-        } else {
-          digitalWrite(LED_BUILTIN, LOW);
-          Serial.println("metre full brightness")
+    if (mcp2515_get_message(&message)) {
+      if (message.id == 0x620 and message.data[4] == 0xF0) {
+        digitalWrite(LED_BUILTIN, HIGH);
+        Serial.println("metre dimmed");
+      } else {
+        digitalWrite(LED_BUILTIN, LOW);
+        Serial.println("metre full brightness");
       }
     }
   }

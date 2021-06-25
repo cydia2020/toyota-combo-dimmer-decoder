@@ -1,42 +1,43 @@
-// for 2016 and above toyotas
-// uses the sparkfun can bus lib
-
-#include <Canbus.h>
-#include <defaults.h>
-#include <global.h>
-#include <mcp2515.h>
-#include <mcp2515_defs.h>
-
-// const int DIMMER_RELAY = 10;
-
-void setup()
-{
-  Serial.begin(9600);
-  //Initialise MCP2515 CAN controller at the specified speed
-  if (Canbus.init(CANSPEED_500))
-    Serial.println("CAN Init ok");
-  else
-    Serial.println("Can't Init CAN");
-
-  delay(1000);
-}
-
-void loop() {
-  tCAN message;
-
-  if (mcp2515_check_message()) {
-    if (mcp2515_get_message(&message)) {
-      if (message.id == 0x620) {
-        Serial.print("ID: ");
-        Serial.print(message.id, HEX);
-        Serial.print(", ");
-        Serial.print("Data: ");
-        for (int i = 0; i < message.header.length; i++) {
-          Serial.print(message.data[i], HEX);
-          Serial.print(" ");
-        }
-        Serial.println("");
-      }
+#include <SPI.h>
+#include "mcp2515_can.h"
+ 
+/*SAMD core*/
+#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
+    #define SERIAL SerialUSB
+#else
+    #define SERIAL Serial
+#endif
+ 
+const int SPI_CS_PIN = 9;
+mcp2515_can CAN(SPI_CS_PIN); // Set CS pin
+ 
+void setup() {
+    SERIAL.begin(115200);
+    while(!Serial){};
+ 
+    while (CAN_OK != CAN.begin(CAN_500KBPS)) {             // init can bus : baudrate = 500k
+        SERIAL.println("CAN BUS Shield init fail");
+        SERIAL.println(" Init CAN BUS Shield again");
+        delay(100);
     }
-  }
+    SERIAL.println("CAN BUS Shield init ok!");
+}
+ 
+unsigned char stmp[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+void loop() {
+    // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
+    stmp[7] = stmp[7] + 1;
+    if (stmp[7] == 100) {
+        stmp[7] = 0;
+        stmp[6] = stmp[6] + 1;
+ 
+        if (stmp[6] == 100) {
+            stmp[6] = 0;
+            stmp[5] = stmp[6] + 1;
+        }
+    }
+ 
+    CAN.sendMsgBuf(0x00, 0, 8, stmp);
+    delay(100);                       // send data per 100ms
+    SERIAL.println("CAN BUS sendMsgBuf ok!");
 }

@@ -20,3 +20,5 @@ This is not great as it creates a few problems
 4. Hook the input of the relay to the first analogue pin of the Arduino (A1).
 5. Hook the common pin of the relay to an ACC source
 6. And finally hook the N/O pin of the relay to your radio's dimmer
+
+Video demo: https://www.youtube.com/watch?v=lJLbp_uphlY

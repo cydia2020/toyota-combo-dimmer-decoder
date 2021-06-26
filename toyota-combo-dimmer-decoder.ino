@@ -12,14 +12,9 @@ unsigned char buf[8];
 char str[20];
 
 void setup() {
-  SERIAL_PORT_MONITOR.begin(115200);
-  while (!Serial) {};
+  pinMode(A1, OUTPUT);
   attachInterrupt(digitalPinToInterrupt(CAN_INT_PIN), MCP2515_ISR, FALLING); // start interrupt
-  while (CAN_OK != CAN.begin(CAN_500KBPS)) {             // init can bus : baudrate = 500k
-    SERIAL_PORT_MONITOR.println("CAN init fail, retry...");
-    delay(100);
-  }
-  SERIAL_PORT_MONITOR.println("CAN init ok!");
+  CAN.begin(CAN_500KBPS);
 
   CAN.init_Mask(0, 0, 0x3ff);                         // there are 2 mask in mcp2515, you need to set both of them
   CAN.init_Mask(1, 0, 0x3ff);
@@ -35,13 +30,9 @@ void loop() {
   flagRecv = 0;
   CAN.readMsgBuf(&len, buf);
 
-  if (CAN.getCanId() == 1568) {
-   for (int i = 0; i < len; i++) {
-	 if (buf[4] == 240) {
-		 Serial.println("dimmed");
-	 } else if (buf[4] == 208) {
-		 Serial.println("bright");
-	 }
-   }
+  if (buf[4] == 0xf0) {
+    digitalWrite(A1, HIGH);
+  } else if (buf[4] == 0xb0) {
+    digitalWrite(A1, LOW);
   }
 }

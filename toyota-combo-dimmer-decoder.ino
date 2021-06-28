@@ -30,9 +30,9 @@ void loop() {
   flagRecv = 0;
   CAN.readMsgBuf(&len, buf);
 
-  if (buf[4] == (0xf0 or 0x40 or 0xc0 or 0xe0 or 0x60)) {
+  if (buf[4] == 0xf0 or buf[4] == 0x40 or buf[4] == 0xc0 or buf[4] == 0xe0 or buf[4] == 0x60) {
     digitalWrite(A1, HIGH);
-  } else if (buf[4] == (0xb0 or 0x30 or 0x10 or 0x0 or 0x80 or 0x20)) {
+  } else if (buf[4] == 0xb0 or buf[4] == 0x30 or buf[4] == 0x10 or buf[4] == 0x0 or buf[4] == 0x80 or buf[4] == 0x20) {
     digitalWrite(A1, LOW);
   }
 }

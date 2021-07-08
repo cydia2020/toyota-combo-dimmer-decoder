@@ -30,9 +30,9 @@ void loop() {
   flagRecv = 0;
   CAN.readMsgBuf(&len, buf);
 
-  if (bitRead(buf[4], 2) == 1) {
+  if (bitRead(buf[4], 6) == 1) {
     digitalWrite(A1, HIGH);
-  } else if (bitRead(buf[4], 2) == 0) {
+  } else if (bitRead(buf[4], 6) == 0) {
     digitalWrite(A1, LOW);
   }
 }

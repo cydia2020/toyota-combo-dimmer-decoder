@@ -13,9 +13,32 @@ void setup() {
   pinMode(A0, OUTPUT);
   CAN.begin(CAN_500KBPS);
 
+  // the library is really dodgy
+  // so we have to set the mask and filter multiple times
+  // otherwise it has a tendency to recv random data
+  delay(500);
   CAN.init_Mask(0, 0, 0x3FF);
   CAN.init_Mask(1, 0, 0x3FF);
+  CAN.init_Filt(0, 0, 0x620);
+  CAN.init_Filt(1, 0, 0x620);
+  CAN.init_Filt(2, 0, 0x620);
+  CAN.init_Filt(3, 0, 0x620);
+  CAN.init_Filt(4, 0, 0x620);
+  CAN.init_Filt(5, 0, 0x620);
 
+  delay(500);
+  CAN.init_Mask(0, 0, 0x3FF);
+  CAN.init_Mask(1, 0, 0x3FF);
+  CAN.init_Filt(0, 0, 0x620);
+  CAN.init_Filt(1, 0, 0x620);
+  CAN.init_Filt(2, 0, 0x620);
+  CAN.init_Filt(3, 0, 0x620);
+  CAN.init_Filt(4, 0, 0x620);
+  CAN.init_Filt(5, 0, 0x620);
+
+  delay(500);
+  CAN.init_Mask(0, 0, 0x3FF);
+  CAN.init_Mask(1, 0, 0x3FF);
   CAN.init_Filt(0, 0, 0x620);
   CAN.init_Filt(1, 0, 0x620);
   CAN.init_Filt(2, 0, 0x620);
@@ -35,5 +58,5 @@ void loop() {
     digitalWrite(A0, LOW);
   }
 
-  delay(100);
+  delay(20);
 }

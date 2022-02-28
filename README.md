@@ -17,7 +17,7 @@ Further, on cars with automated headlights, the radio wouldn't go into dark mode
 3. A 5V/12V relay.
 
 # Hook Up Guide
-1. Hook the CAN Bus pins on your radio connector up to the CAN-H and CAN-L pins on the shield.
+1. Hook the CAN Bus pins on your driving support ECU / ADAS Camera connector up to the CAN-H and CAN-L pins on the shield.
 2. Hook ground to ground, and ACC to 5V with a buck converter. (DO NOT CONNECT ACC TO YOUR ARDUINO DIRECTLY UNLESS IT IS CAPABLE OF RUNNING OFF 12V).
 3. Hook the relay to 12V or 5V depending on the relay.
 4. Hook the input of the relay module to the first analogue pin of the Arduino (A1).

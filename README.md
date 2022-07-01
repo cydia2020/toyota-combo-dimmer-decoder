@@ -2,7 +2,7 @@
 An Arduino and MCP2515 based combination metre dimmer decoder for newer Toyota and Lexus vehicles.
 
 # Why?
-Some aftermarket radio require users to hook up its dimmer wire, which essentially tells the radio to dim the display while the parking lights are ON.
+Some aftermarket head units require users to hook up the dimmer wire, the wire essentially tells the radio to dim the display while the parking lights are ON.
 This is not great since it creates a few problems:
 1. In some places it is required by law to use the headlight when it's raining, even during daylight time, this can make the radio / navigation display hard to read if the dimmer is linked to the parking lights.
 2. The factory radio uses this signal as the dimmer, making the aftermarket peripherals more stock-ish.

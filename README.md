@@ -1,3 +1,5 @@
+# this is deprecated, go use this https://github.com/cydia2020/toyota-can-bus-multitool
+
 # Toyota Combination Metre Dimmer Decoder
 An Arduino and MCP2515 based combination metre dimmer decoder for newer Toyota and Lexus vehicles.
 
